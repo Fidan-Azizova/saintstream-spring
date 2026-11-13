@@ -1,0 +1,650 @@
+{
+  "info": {
+    "name": "SaintStream Home API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Hero",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Standart format: success, message, data\", () => { const b = pm.response.json(); pm.expect(b).to.have.all.keys(\"success\",\"message\",\"data\"); });",
+              "pm.test(\"1–5 element, genres massiv\", () => { const d = pm.response.json().data; pm.expect(d.length).to.be.within(1,5); pm.expect(d[0].genres).to.be.an(\"array\"); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/home/hero",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "home",
+            "hero"
+          ],
+          "query": []
+        }
+      }
+    },
+    {
+      "name": "2. Platforms",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Standart format: success, message, data\", () => { const b = pm.response.json(); pm.expect(b).to.have.all.keys(\"success\",\"message\",\"data\"); });",
+              "pm.test(\"Yalnız aktiv platformalar (7)\", () => { const d = pm.response.json().data; pm.expect(d.length).to.eql(7); pm.expect(d.map(p=>p.name)).to.not.include(\"Prime Video\"); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/home/platforms",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "home",
+            "platforms"
+          ],
+          "query": []
+        }
+      }
+    },
+    {
+      "name": "3. Featured",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Standart format: success, message, data\", () => { const b = pm.response.json(); pm.expect(b).to.have.all.keys(\"success\",\"message\",\"data\"); });",
+              "pm.test(\"İlk element: Air: Courting A Legend / #1 in Australia\", () => { const f = pm.response.json().data[0]; pm.expect(f.title).to.eql(\"Air: Courting A Legend\"); pm.expect(f.tagline).to.eql(\"#1 in Australia\"); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/home/featured",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "home",
+            "featured"
+          ],
+          "query": []
+        }
+      }
+    },
+    {
+      "name": "Section: just-release",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Standart format: success, message, data\", () => { const b = pm.response.json(); pm.expect(b).to.have.all.keys(\"success\",\"message\",\"data\"); });",
+              "pm.test(\"section = just-release\", () => pm.expect(pm.response.json().data.section).to.eql(\"just-release\"));",
+              "pm.test(\"items massivdir və janrlar var\", () => { const it = pm.response.json().data.items; pm.expect(it).to.be.an(\"array\").that.is.not.empty; pm.expect(it[0].genres).to.be.an(\"array\"); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/home/sections?section=just-release",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "home",
+            "sections"
+          ],
+          "query": [
+            {
+              "key": "section",
+              "value": "just-release"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Section: popular-week",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Standart format: success, message, data\", () => { const b = pm.response.json(); pm.expect(b).to.have.all.keys(\"success\",\"message\",\"data\"); });",
+              "pm.test(\"section = popular-week\", () => pm.expect(pm.response.json().data.section).to.eql(\"popular-week\"));",
+              "pm.test(\"items massivdir və janrlar var\", () => { const it = pm.response.json().data.items; pm.expect(it).to.be.an(\"array\").that.is.not.empty; pm.expect(it[0].genres).to.be.an(\"array\"); });",
+              "pm.test(\"rank 1–4\", () => pm.expect(pm.response.json().data.items.map(i => i.rank)).to.eql([1,2,3,4]));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/home/sections?section=popular-week",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "home",
+            "sections"
+          ],
+          "query": [
+            {
+              "key": "section",
+              "value": "popular-week"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Section: movies",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Standart format: success, message, data\", () => { const b = pm.response.json(); pm.expect(b).to.have.all.keys(\"success\",\"message\",\"data\"); });",
+              "pm.test(\"section = movies\", () => pm.expect(pm.response.json().data.section).to.eql(\"movies\"));",
+              "pm.test(\"items massivdir və janrlar var\", () => { const it = pm.response.json().data.items; pm.expect(it).to.be.an(\"array\").that.is.not.empty; pm.expect(it[0].genres).to.be.an(\"array\"); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/home/sections?section=movies",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "home",
+            "sections"
+          ],
+          "query": [
+            {
+              "key": "section",
+              "value": "movies"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Section: series",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Standart format: success, message, data\", () => { const b = pm.response.json(); pm.expect(b).to.have.all.keys(\"success\",\"message\",\"data\"); });",
+              "pm.test(\"section = series\", () => pm.expect(pm.response.json().data.section).to.eql(\"series\"));",
+              "pm.test(\"items massivdir və janrlar var\", () => { const it = pm.response.json().data.items; pm.expect(it).to.be.an(\"array\").that.is.not.empty; pm.expect(it[0].genres).to.be.an(\"array\"); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/home/sections?section=series",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "home",
+            "sections"
+          ],
+          "query": [
+            {
+              "key": "section",
+              "value": "series"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Section: korean-series",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Standart format: success, message, data\", () => { const b = pm.response.json(); pm.expect(b).to.have.all.keys(\"success\",\"message\",\"data\"); });",
+              "pm.test(\"section = korean-series\", () => pm.expect(pm.response.json().data.section).to.eql(\"korean-series\"));",
+              "pm.test(\"items massivdir və janrlar var\", () => { const it = pm.response.json().data.items; pm.expect(it).to.be.an(\"array\").that.is.not.empty; pm.expect(it[0].genres).to.be.an(\"array\"); });",
+              "pm.test(\"Yalnız serial\", () => pm.expect(pm.response.json().data.items.every(i => i.type === \"series\")).to.eql(true));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/home/sections?section=korean-series",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "home",
+            "sections"
+          ],
+          "query": [
+            {
+              "key": "section",
+              "value": "korean-series"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Section: awards",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Standart format: success, message, data\", () => { const b = pm.response.json(); pm.expect(b).to.have.all.keys(\"success\",\"message\",\"data\"); });",
+              "pm.test(\"section = awards\", () => pm.expect(pm.response.json().data.section).to.eql(\"awards\"));",
+              "pm.test(\"items massivdir və janrlar var\", () => { const it = pm.response.json().data.items; pm.expect(it).to.be.an(\"array\").that.is.not.empty; pm.expect(it[0].genres).to.be.an(\"array\"); });",
+              "pm.test(\"label, description, platform sahələri var\", () => { const i = pm.response.json().data.items[0]; pm.expect(i).to.include.keys(\"label\",\"description\",\"platform\",\"backdrop_url\",\"duration_minutes\"); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/home/sections?section=awards",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "home",
+            "sections"
+          ],
+          "query": [
+            {
+              "key": "section",
+              "value": "awards"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Section: fast",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Standart format: success, message, data\", () => { const b = pm.response.json(); pm.expect(b).to.have.all.keys(\"success\",\"message\",\"data\"); });",
+              "pm.test(\"section = fast\", () => pm.expect(pm.response.json().data.section).to.eql(\"fast\"));",
+              "pm.test(\"items massivdir və janrlar var\", () => { const it = pm.response.json().data.items; pm.expect(it).to.be.an(\"array\").that.is.not.empty; pm.expect(it[0].genres).to.be.an(\"array\"); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/home/sections?section=fast",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "home",
+            "sections"
+          ],
+          "query": [
+            {
+              "key": "section",
+              "value": "fast"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Section: live",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Standart format: success, message, data\", () => { const b = pm.response.json(); pm.expect(b).to.have.all.keys(\"success\",\"message\",\"data\"); });",
+              "pm.test(\"section = live\", () => pm.expect(pm.response.json().data.section).to.eql(\"live\"));",
+              "pm.test(\"items massivdir və janrlar var\", () => { const it = pm.response.json().data.items; pm.expect(it).to.be.an(\"array\").that.is.not.empty; pm.expect(it[0].genres).to.be.an(\"array\"); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/home/sections?section=live",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "home",
+            "sections"
+          ],
+          "query": [
+            {
+              "key": "section",
+              "value": "live"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Section göndərmə (400)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 400\", () => pm.response.to.have.status(400));",
+              "pm.test(\"Standart format: success, message, data\", () => { const b = pm.response.json(); pm.expect(b).to.have.all.keys(\"success\",\"message\",\"data\"); });",
+              "pm.test(\"success = false\", () => pm.expect(pm.response.json().success).to.eql(false));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/home/sections",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "home",
+            "sections"
+          ],
+          "query": []
+        }
+      }
+    },
+    {
+      "name": "Yanlış section=abc (400)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 400\", () => pm.response.to.have.status(400));",
+              "pm.test(\"Standart format: success, message, data\", () => { const b = pm.response.json(); pm.expect(b).to.have.all.keys(\"success\",\"message\",\"data\"); });",
+              "pm.test(\"success = false\", () => pm.expect(pm.response.json().success).to.eql(false));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/home/sections?section=abc",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "home",
+            "sections"
+          ],
+          "query": [
+            {
+              "key": "section",
+              "value": "abc"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "limit=0 (400)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 400\", () => pm.response.to.have.status(400));",
+              "pm.test(\"Standart format: success, message, data\", () => { const b = pm.response.json(); pm.expect(b).to.have.all.keys(\"success\",\"message\",\"data\"); });",
+              "pm.test(\"success = false\", () => pm.expect(pm.response.json().success).to.eql(false));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/home/sections?section=movies&limit=0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "home",
+            "sections"
+          ],
+          "query": [
+            {
+              "key": "section",
+              "value": "movies"
+            },
+            {
+              "key": "limit",
+              "value": "0"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "limit=3 → 3 element",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Standart format: success, message, data\", () => { const b = pm.response.json(); pm.expect(b).to.have.all.keys(\"success\",\"message\",\"data\"); });",
+              "pm.test(\"Dəqiq 3 element\", () => pm.expect(pm.response.json().data.items.length).to.eql(3));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/home/sections?section=movies&limit=3",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "home",
+            "sections"
+          ],
+          "query": [
+            {
+              "key": "section",
+              "value": "movies"
+            },
+            {
+              "key": "limit",
+              "value": "3"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Əlavə: limit=21 (400)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 400\", () => pm.response.to.have.status(400));",
+              "pm.test(\"Standart format: success, message, data\", () => { const b = pm.response.json(); pm.expect(b).to.have.all.keys(\"success\",\"message\",\"data\"); });",
+              "pm.test(\"success = false\", () => pm.expect(pm.response.json().success).to.eql(false));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/home/sections?section=movies&limit=21",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "home",
+            "sections"
+          ],
+          "query": [
+            {
+              "key": "section",
+              "value": "movies"
+            },
+            {
+              "key": "limit",
+              "value": "21"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Əlavə: limit=abc (400)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 400\", () => pm.response.to.have.status(400));",
+              "pm.test(\"Standart format: success, message, data\", () => { const b = pm.response.json(); pm.expect(b).to.have.all.keys(\"success\",\"message\",\"data\"); });",
+              "pm.test(\"success = false\", () => pm.expect(pm.response.json().success).to.eql(false));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/home/sections?section=movies&limit=abc",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "home",
+            "sections"
+          ],
+          "query": [
+            {
+              "key": "section",
+              "value": "movies"
+            },
+            {
+              "key": "limit",
+              "value": "abc"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
