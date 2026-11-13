@@ -85,7 +85,7 @@ src/main/java/com/saintstream/
 17 sorğu, hər birində test skripti: hero, platforms, featured, 8 section, section yoxdur (400), `section=abc` (400),
 `limit=0` (400), `limit=3` (3 element) + 2 əlavə. Nəticənin screenshot-unu Discord-a at.
 
-## Discord üçün: janrlar N+1 olmadan (kopyala-yapışdır)
+## Discord üçün: janrlar N+1 olmadan 
 
 Janrları hər kart üçün ayrıca sorğu ilə gətirsəydim, 8 kartlıq sıra üçün 1 + 8 = 9 sorğu olardı (N+1 problemi).
 Əvəzinə **iki sorğu** işlədirəm: 1) kartların özü; 2) bütün bu kartların id-ləri üçün **bir** sorğu:
